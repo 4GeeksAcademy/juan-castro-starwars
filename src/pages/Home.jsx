@@ -1,3 +1,4 @@
+
 import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import starwars from "../assets/img/starwars.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";

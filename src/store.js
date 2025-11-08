@@ -1,6 +1,8 @@
 export const initialStore=()=>{
   return{
     message: null,
+    name: "",
+    people: [],
     todos: [
       {
         id: 1,
@@ -26,6 +28,12 @@ export default function storeReducer(store, action = {}) {
         ...store,
         todos: store.todos.map((todo) => (todo.id === id ? { ...todo, background: color } : todo))
       };
+    case 'save_people_list':
+      let lista= action.payload
+      return {
+        ...store, people: lista
+      }
+
     default:
       throw Error('Unknown action.');
   }    
