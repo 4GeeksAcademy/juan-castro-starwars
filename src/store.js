@@ -3,6 +3,7 @@ export const initialStore=()=>{
     message: null,
     name: "",
     people: [],
+    currentPeopleDetails: {},
     todos: [
       {
         id: 1,
@@ -34,6 +35,15 @@ export default function storeReducer(store, action = {}) {
         ...store, people: lista
       }
 
+    case 'set_people_details':
+      let detalles= action.payload
+      return {
+        ...store, currentPeopleDetails: detalles
+      }
+    case 'clean_people_details':
+      return {
+        ...store, currentPeopleDetails: {}
+      }
     default:
       throw Error('Unknown action.');
   }    

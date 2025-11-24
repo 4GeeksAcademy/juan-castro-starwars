@@ -1,8 +1,27 @@
 import React, { useEffect } from "react";
 import useGlobalReducer from "../hooks/useGlobalReducer";
+import { useNavigate } from "react-router-dom";
 
 const Starwars = () => {
     const { store, dispatch } = useGlobalReducer();
+    const navigate = useNavigate();
+
+    const handlerGoToDetails = async (url) => {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            data.result.properties
+            console.log(data);
+            dispatch({ type: "set_people_details", payload: data.result.properties });
+            navigate(`/PeopleDetails`);
+
+        } catch (error) {
+            console.error("Error data:", error);
+        }
+    };
 
     useEffect(() => {
         const getPeople = async () => {
@@ -29,26 +48,27 @@ const Starwars = () => {
     return (
         <div>
             <h1>Personajes</h1>
-            {
-                store.people.length > 0 &&
-                store.people.map((ele) => {
-                    return (
-                        <div key={ele.uid}>
-                            <h3>{ele.name}</h3>
-                        </div>
-                        // <div key={ele.uid} class="card" style="width: 18rem;">
-                        //     <img src="..." class="card-img-top" alt="...">
-                        //         <div class="card-body">
-                        //             <h5 class="card-title">{ele.name}</h5>
-                        //             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                        //             <a href="#" class="btn btn-primary">Go somewhere</a>
-                        //         </div>
-                        // </div>
-                    );
-                }
-                )
-            }
+            <div className="cards-container">
+                {
+                    store.people.length > 0 &&
+                    store.people.map((ele) => {
+                        return (
+                            <div className="card" style={{ width: "18rem" }} key={ele.uid}>
+                                <img src="https://placehold.org/400x200/000000/ffffff" className="card-img-top" alt="..." />
+                                <div className="card-body">
+                                    <h5 className="card-title">{ele.name}</h5>
+                                    <a href="#" className="btn btn-primary" onClick={() => handlerGoToDetails(ele.url)} >Learn More</a>
 
+                                </div>
+                            </div>
+
+
+                        );
+                    }
+                    )
+
+                }
+            </div>
         </div>
     );
 }
