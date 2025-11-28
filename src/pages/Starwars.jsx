@@ -23,6 +23,34 @@ const Starwars = () => {
         }
     };
 
+    const handlerMove = async (que) => {
+        try {
+            let url = "";
+            if (que === "sig") {
+                if (!store.data_people?.next) {
+                    alert("No hay mas paginas Siguientes");
+                    return;
+                }
+                url = store.data_people.next;
+            } else {
+                if (!store.data_people?.previous) {
+                    alert("No hay mas paginas Anteriores");
+                    return;
+                }
+                url = store.data_people.previous;
+            }
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            dispatch({ type: "data_people", payload: data });
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     useEffect(() => {
         const getPeople = async () => {
             try {
@@ -34,6 +62,7 @@ const Starwars = () => {
                 data.results
 
                 dispatch({ type: "save_people_list", payload: data.results });
+                dispatch({ type: "data_people", payload: data });
                 console.log(data);
 
             } catch (error) {
@@ -48,29 +77,30 @@ const Starwars = () => {
     return (
         <div>
             <h1>Personajes</h1>
+            <button onClick={() => handlerMove('prev')}>Previos</button>
+            <button onClick={() => handlerMove('sig')}>Siguientes</button>
             <div className="cards-container">
+                { console.log("STORE:", store) }
                 {
-                    store.people.length > 0 &&
-                    store.people.map((ele) => {
+                    store.data_people?.results?.length > 0 &&
+                    store.data_people.results.map((ele) => {
                         return (
                             <div className="card" style={{ width: "18rem" }} key={ele.uid}>
                                 <img src="https://placehold.org/400x200/000000/ffffff" className="card-img-top" alt="..." />
                                 <div className="card-body">
                                     <h5 className="card-title">{ele.name}</h5>
                                     <a href="#" className="btn btn-primary" onClick={() => handlerGoToDetails(ele.url)} >Learn More</a>
-
                                 </div>
+                                
                             </div>
-
-
                         );
-                    }
-                    )
-
+                    })
                 }
             </div>
+            
         </div>
     );
-}
+
+};
 
 export default Starwars;

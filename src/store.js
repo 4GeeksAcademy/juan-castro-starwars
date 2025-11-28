@@ -4,6 +4,7 @@ export const initialStore=()=>{
     name: "",
     people: [],
     currentPeopleDetails: {},
+    data_people: null,
     todos: [
       {
         id: 1,
@@ -19,32 +20,23 @@ export const initialStore=()=>{
   }
 }
 
-export default function storeReducer(store, action = {}) {
-  switch(action.type){
-    case 'add_task':
+export default function storeReducer(store = initialStore(), action = {}) {
+  switch (action.type) {
+    case "save_people_list":
+      return { ...store, people: action.payload };
 
-      const { id,  color } = action.payload
+    case "data_people":
+      return { ...store, data_people: action.payload };
 
-      return {
-        ...store,
-        todos: store.todos.map((todo) => (todo.id === id ? { ...todo, background: color } : todo))
-      };
-    case 'save_people_list':
-      let lista= action.payload
-      return {
-        ...store, people: lista
-      }
+    case "set_people_details":
+      // guardar en la misma propiedad del initialStore
+      return { ...store, currentPeopleDetails: action.payload };
 
-    case 'set_people_details':
-      let detalles= action.payload
-      return {
-        ...store, currentPeopleDetails: detalles
-      }
     case 'clean_people_details':
       return {
         ...store, currentPeopleDetails: {}
-      }
+      };
     default:
-      throw Error('Unknown action.');
+      return store;
   }    
 }
