@@ -12,7 +12,7 @@ import { Demo } from "./pages/Demo";
 import Starwars from "./pages/Starwars";
 import PeopleDetails from "./pages/PeopleDetails";
 import PlanetDetails from "./pages/PlanetDetails";
-import vehicleDetails from "./pages/VehicleDetails";
+import VehicleDetails from "./pages/VehicleDetails";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(

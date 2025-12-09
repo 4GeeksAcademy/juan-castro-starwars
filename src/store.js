@@ -51,6 +51,20 @@ export default function storeReducer(store = initialStore(), action = {}) {
         ...store, currentPlanetDetails: {}
       };
 
+    case "save_vehicle_list":
+      return { ...store, vehicle: action.payload };
+
+    case "data_vehicle":
+      return { ...store, data_vehicle: action.payload };
+
+    case "set_vehicle_details":
+      return { ...store, currentVehicleDetails: action.payload };
+
+    case 'clean_vehicle_details':
+      return {
+        ...store, currentVehicleDetails: {}
+      };
+
     default:
       return store;
   }    
