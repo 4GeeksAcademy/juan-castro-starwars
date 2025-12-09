@@ -6,8 +6,8 @@ const PeopleDetails = () => {
 
     return (
         <div>
-            <h1>Detalles de Personajes</h1> <br />
-            <h4>{store.currentPeopleDetails.name}</h4>
+            <h1>Detalles de {store.currentPeopleDetails.name}</h1> <br />
+            <h4>Name:  {store.currentPeopleDetails.name}</h4>
             <h4>Gender:  {store.currentPeopleDetails.gender}</h4>
             <h4>Hair Color:  {store.currentPeopleDetails.hair_color}</h4>
             <h4>Eye Color:  {store.currentPeopleDetails.eye_color}</h4>

@@ -36,6 +36,21 @@ export default function storeReducer(store = initialStore(), action = {}) {
       return {
         ...store, currentPeopleDetails: {}
       };
+
+    case "save_planet_list":
+      return { ...store, planet: action.payload };
+
+    case "data_planet":
+      return { ...store, data_planet: action.payload };
+
+    case "set_planet_details":
+      return { ...store, currentPlanetDetails: action.payload };
+
+    case 'clean_planet_details':
+      return {
+        ...store, currentPlanetDetails: {}
+      };
+
     default:
       return store;
   }    
