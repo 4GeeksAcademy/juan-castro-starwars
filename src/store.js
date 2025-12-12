@@ -5,6 +5,7 @@ export const initialStore=()=>{
     people: [],
     currentPeopleDetails: {},
     data_people: null,
+    fav_list:[],
     todos: [
       {
         id: 1,
@@ -63,6 +64,20 @@ export default function storeReducer(store = initialStore(), action = {}) {
     case 'clean_vehicle_details':
       return {
         ...store, currentVehicleDetails: {}
+      };
+
+    case "add_to_favorites":
+      let newFav = action.payload;
+      return { ...store, fav_list: [...store.fav_list, newFav] 
+
+      };
+
+    case "del_fav":
+      const uid = action.payload;
+      const listaActualizada = store.fav_list.filter((ele) => ele.uid !== uid);
+      return {
+        ...store, fav_list: listaActualizada
+
       };
 
     default:

@@ -7,13 +7,13 @@ const PlanetDetails = () => {
     return (
         <div>
             <h1>Detalles de {store.currentPlanetDetails.name}</h1> <br />
-            <h4>Name:  {store.currentPlanetDetails.name}</h4>
+            <h4>Nombre:  {store.currentPlanetDetails.name}</h4>
             <h4>Clima:  {store.currentPlanetDetails.climate}</h4>
             <h4>Agua en la superficie:  {store.currentPlanetDetails.surface_water}</h4>
             <h4>Diametro:  {store.currentPlanetDetails.diameter}</h4>
             <h4>Periodo de rotacion:  {store.currentPlanetDetails.rotation_period}</h4>
             <h4>Periodo de orbita:  {store.currentPlanetDetails.orbital_period}</h4>
-            <h4>Poblacio:  {store.currentPlanetDetails.population}</h4>
+            <h4>Poblacion:  {store.currentPlanetDetails.population}</h4>
         </div>
     );
     useEffect(() => {

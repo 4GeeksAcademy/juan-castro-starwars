@@ -115,151 +115,166 @@ const Starwars = () => {
         }
     };
 
-    // para people
-    useEffect(() => {
-        const getPeople = async () => {
-            try {
-                const response = await fetch("https://www.swapi.tech/api/people/");
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                data.results
-
-                dispatch({ type: "save_people_list", payload: data.results });
-                dispatch({ type: "data_people", payload: data });
-                console.log(data);
-            
-
-            } catch (error) {
-                console.error("Error data:", error);
-            }
+    const handlerFav = (elemento) => {
+        let encontrado = store.fav_list.find((ele) => ele.uid === elemento.uid)
+        if (encontrado) 
+            return
+            dispatch({ type: "add_to_favorites", payload: elemento })
         };
-        getPeople();
 
-    }
-        , []);
-    // #para planetas
-    useEffect(() => {
-        const getPlanet = async () => {
-            try {
-                const response = await fetch("https://www.swapi.tech/api/planets/");
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                data.results
-
-                dispatch({ type: "save_planet_list", payload: data.results });
-                dispatch({ type: "data_planet", payload: data });
-                console.log(data);
-
-            } catch (error) {
-                console.error("Error data:", error);
-            }
+        const handlerDelFav = (uid) => {
+            dispatch({ type: "del_fav", payload: uid })
         };
-        getPlanet();
 
-    }
-        , []);
-       // #para vehiculos
+        // para people
     useEffect(() => {
-        const getVehicle = async () => {
-            try {
-                const response = await fetch("https://www.swapi.tech/api/vehicles/");
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+            const getPeople = async () => {
+                try {
+                    const response = await fetch("https://www.swapi.tech/api/people/");
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    data.results
+
+                    dispatch({ type: "save_people_list", payload: data.results });
+                    dispatch({ type: "data_people", payload: data });
+                    console.log(data);
+
+
+                } catch (error) {
+                    console.error("Error data:", error);
                 }
-                const data = await response.json();
-                data.results
+            };
+            getPeople();
 
-                dispatch({ type: "save_vehicle_list", payload: data.results });
-                dispatch({ type: "data_vehicle", payload: data });
-                console.log(data);
+        }
+            , []);
+        // #para planetas
+    useEffect(() => {
+            const getPlanet = async () => {
+                try {
+                    const response = await fetch("https://www.swapi.tech/api/planets/");
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    data.results
 
-            } catch (error) {
-                console.error("Error data:", error);
-            }
-        };
-        getVehicle();
+                    dispatch({ type: "save_planet_list", payload: data.results });
+                    dispatch({ type: "data_planet", payload: data });
+                    console.log(data);
 
-    }
-        , []);
+                } catch (error) {
+                    console.error("Error data:", error);
+                }
+            };
+            getPlanet();
 
-    return (
-        <div>
-            <h1>Personajes</h1>
-            <button onClick={() => handlerMovePeople('prev')}>Previos</button>
-            <button onClick={() => handlerMovePeople('sig')}>Siguientes</button>
-            <div className="cards-container">
-                {console.log("STORE:", store)}
-                {
-                    store.data_people?.results?.length > 0 &&
-                    store.data_people.results.map((ele) => {
-                        return (
-                            <div className="card" style={{ width: "18rem" }} key={ele.uid}>
-                                <img src="https://placehold.org/400x200/000000/ffffff" className="card-img-top" alt="..." />
-                                <div className="card-body">
-                                    <h5 className="card-title">{ele.name}</h5>
-                                    <div className="botones cards">
-                                    <a href="#" className="btn btn-primary" onClick={() => handlerGoToDetails(ele.url, "people")} >Learn More!!</a>
-                                    <a href="#" className="btn btn-danger" onClick={() => handlerGoToDetails(ele.url, "vehicle")} ><i class="fa-solid fa-heart"></i></a>
-                                    </div> 
+        }
+            , []);
+        // #para vehiculos
+    useEffect(() => {
+            const getVehicle = async () => {
+                try {
+                    const response = await fetch("https://www.swapi.tech/api/vehicles/");
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    data.results
+
+                    dispatch({ type: "save_vehicle_list", payload: data.results });
+                    dispatch({ type: "data_vehicle", payload: data });
+                    console.log(data);
+
+                } catch (error) {
+                    console.error("Error data:", error);
+                }
+            };
+            getVehicle();
+
+        }
+            , []);
+
+        return (
+            <div>
+                <h1>Personajes</h1>
+                <button onClick={() => handlerMovePeople('prev')}>Previos</button>
+                <button onClick={() => handlerMovePeople('sig')}>Siguientes</button>
+                <div className="cards-container">
+                    {console.log("STORE:", store)}
+                    {
+                        store.data_people?.results?.length > 0 &&
+                        store.data_people.results.map((ele) => {
+                            return (
+                                <div className="card" style={{ width: "18rem" }} key={ele.uid}>
+                                    <img src="https://placehold.org/400x200/000000/ffffff" className="card-img-top" alt="..." />
+                                    <div className="card-body">
+                                        <h5 className="card-title">{ele.name}</h5>
+                                        <div className="botones cards">
+                                            <a href="#" className="btn btn-primary" onClick={() => handlerGoToDetails(ele.url, "people")} >Learn More!!</a>
+                                            <a href="#" className="btn btn-danger" onClick={() => handlerFav(ele)} ><i className="fa-solid fa-heart"></i></a>
+                                        </div>
+                                    </div>
+
                                 </div>
+                            );
+                        })
 
-                            </div>
-                        );
-                    })
+                    }
+                </div> <br /><br />
+                <h1>Planetas</h1>
+                <button onClick={() => handlerMovePlanet('prev')}>Previos</button>
+                <button onClick={() => handlerMovePlanet('sig')}>Siguientes</button>
+                <div className="cards-container">
+                    {console.log("STORE:", store)}
+                    {
+                        store.data_planet?.results?.length > 0 &&
+                        store.data_planet.results.map((ele) => {
+                            return (
+                                <div className="card" style={{ width: "18rem" }} key={ele.uid}>
+                                    <img src="https://placehold.org/400x200/000000/ffffff" className="card-img-top" alt="..." />
+                                    <div className="card-body">
+                                        <h5 className="card-title">{ele.name}</h5>
+                                        <div className="botones cards">
+                                            <a href="#" className="btn btn-primary" onClick={() => handlerGoToDetails(ele.url, "planet")} >Learn More!!</a>
+                                            <a href="#" className="btn btn-danger" onClick={() => handlerFav(ele)} ><i class="fa-solid fa-heart"></i></a>
+                                        </div>
+                                    </div>
 
-                }
-            </div> <br /><br />
-            <h1>Planetas</h1>
-            <button onClick={() => handlerMovePlanet('prev')}>Previos</button>
-            <button onClick={() => handlerMovePlanet('sig')}>Siguientes</button>
-            <div className="cards-container">
-                {console.log("STORE:", store)}
-                {
-                    store.data_planet?.results?.length > 0 &&
-                    store.data_planet.results.map((ele) => {
-                        return (
-                            <div className="card" style={{ width: "18rem" }} key={ele.uid}>
-                                <img src="https://placehold.org/400x200/000000/ffffff" className="card-img-top" alt="..." />
-                                <div className="card-body">
-                                    <h5 className="card-title">{ele.name}</h5>
-                                    <a href="#" className="btn btn-primary" onClick={() => handlerGoToDetails(ele.url, "planet")} >Learn More!!</a>
-                                    <a href="#" className="btn btn-primary" onClick={() => handlerGoToDetails(ele.url, "vehicle")} >Learn More!!</a>
                                 </div>
+                            );
+                        })
+                    }
+                </div> <br /><br />
+                <h1>Vehiculos</h1>
+                <button onClick={() => handlerMoveVehicle('prev')}>Previos</button>
+                <button onClick={() => handlerMoveVehicle('sig')}>Siguientes</button>
+                <div className="cards-container">
+                    {console.log("STORE:", store)}
+                    {
+                        store.data_vehicle?.results?.length > 0 &&
+                        store.data_vehicle.results.map((ele) => {
+                            return (
+                                <div className="card" style={{ width: "18rem" }} key={ele.uid}>
+                                    <img src="https://placehold.org/400x200/000000/ffffff" className="card-img-top" alt="..." />
+                                    <div className="card-body">
+                                        <h5 className="card-title">{ele.name}</h5>
+                                        <div className="botones cards">
+                                            <a href="#" className="btn btn-primary" onClick={() => handlerGoToDetails(ele.url, "vehicle")} >Learn More!!</a>
+                                            <a href="#" className="btn btn-danger" onClick={() => handlerFav(ele)} ><i class="fa-solid fa-heart"></i></a>
+                                        </div>
+                                    </div>
 
-                            </div>
-                        );
-                    })
-                }
-            </div> <br /><br />
-            <h1>Vehiculos</h1>
-            <button onClick={() => handlerMoveVehicle('prev')}>Previos</button>
-            <button onClick={() => handlerMoveVehicle('sig')}>Siguientes</button>
-            <div className="cards-container">
-                {console.log("STORE:", store)}
-                {
-                    store.data_vehicle?.results?.length > 0 &&
-                    store.data_vehicle.results.map((ele) => {
-                        return (
-                            <div className="card" style={{ width: "18rem" }} key={ele.uid}>
-                                <img src="https://placehold.org/400x200/000000/ffffff" className="card-img-top" alt="..." />
-                                <div className="card-body">
-                                    <h5 className="card-title">{ele.name}</h5>
-                                    <a href="#" className="btn btn-primary" onClick={() => handlerGoToDetails(ele.url, "vehicle")} >Learn More!!</a>
-                                    <a href="#" className="btn btn-primary" onClick={() => handlerGoToDetails(ele.url, "vehicle")} >Learn More!!</a>
                                 </div>
-
-                            </div>
-                        );
-                    })
-                }
+                            );
+                        })
+                    }
+                </div>
             </div>
-        </div>
-    );
+        );
 
-};
+    };
 
-export default Starwars;
+    export default Starwars;

@@ -13,3 +13,9 @@
     display: flex;
     justify-content: space-between;
 }
+
+.dropdown-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
